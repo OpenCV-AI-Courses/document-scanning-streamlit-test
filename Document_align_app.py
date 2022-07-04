@@ -148,7 +148,8 @@ if uploaded_file is not None:
         canvas_result = st_canvas(
             fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
             stroke_width=3,
-            background_image=Image.open(io.BytesIO(uploaded_file.getbuffer())).resize((h_, w_)),
+            background_image=cv2.resize(image,(w_, h_)),
+            # background_image=Image.open(io.BytesIO(uploaded_file.getbuffer())).resize((h_, w_)),
             update_streamlit=True,
             height=h_,
             width=w_,
