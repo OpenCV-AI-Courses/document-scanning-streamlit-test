@@ -131,6 +131,10 @@ col1, col2 = st.columns(2)
 
 if uploaded_file is not None:
 
+    with open(os.path.join("temp",uploaded_file.name),"wb") as f:
+        f.write(uploaded_file.getbuffer())
+    img_path = os.path.join("temp",uploaded_file.name)
+
     # Convert the file to an opencv image.
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
     image = cv2.imdecode(file_bytes, 1)
@@ -148,8 +152,7 @@ if uploaded_file is not None:
         canvas_result = st_canvas(
             fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
             stroke_width=3,
-            background_image=Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB)).resize((h_, w_)),
-            # background_image=Image.open(io.BytesIO(uploaded_file.getbuffer())).resize((h_, w_)),
+            background_image=Image.open(img_path).resize((h_, w_)),
             update_streamlit=True,
             height=h_,
             width=w_,
@@ -182,3 +185,4 @@ if uploaded_file is not None:
         result = Image.fromarray(final[:, :, ::-1])
         st.sidebar.markdown(get_image_download_link(result, 'output.png', 'Download ' + 'Output'),
                             unsafe_allow_html=True)
+        os.remove(img_path)
