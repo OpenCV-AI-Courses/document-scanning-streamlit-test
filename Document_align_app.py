@@ -3,7 +3,7 @@ import pathlib
 from streamlit_drawable_canvas import st_canvas
 import cv2
 import numpy as np
-import io
+import io, os
 import base64
 from PIL import Image
 
